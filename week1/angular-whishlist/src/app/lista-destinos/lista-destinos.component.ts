@@ -8,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class ListaDestinosComponent implements OnInit {
   destinos: string[];
   constructor() {
-    this.destinos =['Barcelona','Bs. As.',' Lima','Barranquilla']; 
+    this.destinos =['Barcelona','Bs. As.',' Lima','Barranquilla'];
   }
 
   ngOnInit() {
+  }
+  guardar(nombre:string,url:string):boolean{
+    console.log(nombre);
+    console.log(url);
+    return false;
   }
 
 }
