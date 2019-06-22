@@ -1,0 +1,56 @@
+Elementos a instalar para un proyecto angular:
+
+1) Instala NVM.
+
+2)  Instala Node desde NVM, esto instala NPM.
+
+3)  Instala typescript.
+
+4)  Instala angular cli.
+
+
+Comandos basicos para inicar una nueva app ANGULAR
+
+1) CREAR UN NUEVO PROYECTO
+
+Crear un nuevo poryecto:  
+- ng new "nombre del proyecto"
+
+Generar un nuevo componente:
+
+- ng generate component "nombre del componente"
+
+Empaquetar y lanzar
+
+- ng serve
+
+Info:
+
+Cada modulo "componente" se define el el /src/app por un archivo *.ts,*.html,*.css
+Angular desde index.html va al archivo *.ts que es donde se define el componente, en ese lugar encuentra
+la definicion del "selector" que es el "tag personalizado" y especifica el path del template y de los estilos.
+Por ultimo define el "COMPORTAMIENTO" (los componenetes tiene comportamiento encapsulado)
+
+"app" -> Es el componenete raiz de toda aplicacion angular.
+
+
+2) AGREGAR BOOTSTRAP
+
+https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/#2-installing-bootstrap-from-npm
+
+- npm install bootstrap --save
+
+- npm install jquery --save
+
+- npm install popper.js --save
+
+
+3) para publicar la app-->
+
+	ng build --prod --base-href /
+
+y publicarlar con "now"Instalando now
+Podemos instalar now utilizando npm:
+npm instala -g now
+
+
