@@ -1,0 +1,51 @@
+Calificado del Módulo 1
+
+1. Pregunta 1
+¿Qué es npm?
+
+El manejador de paquetes por defecto de nodejs
+
+2. Pregunta 2
+¿Qué es GIT?
+
+Un sistema de versionado de archivos
+
+3. Pregunta 3
+En angular ¿cómo indicamos los estilos globales?
+
+4. Pregunta 4
+En angular ¿cómo indicamos los estilos globales?
+
+Tenemos un archivo global styles.css
+
+5. Pregunta 5
+En typescript ¿dónde inicializamos los valores de los atributos internos de un objeto?
+En el constructor
+
+6. Pregunta 6
+Si queremos inicializar atributos de un componente de manera externa, ¿cómo hacemos?
+
+Usamos la anotación @Input en typescript y con corchetes [] en el html indicamos el valor
+Invocar desde un template html un elemento con el selector del componente deseado.
+
+
+7. Pregunta 7
+Si tenemos que desarrollar un componente, ¿dónde debemos agregarlo en el module.ts?
+
+En declarations en @ngmodule
+
+
+8. Pregunta 8
+¿Qué significa el atributo "(click)" en una vista de angular?
+
+Es un evento de javascript
+
+9. Pregunta 9
+En las vistas de angular, ¿qué sintaxis elegimos para usar el valor de un tag input en un formulario, vinculándolo a un nombre de variable de formulario?
+
+Usamos el #nombreControl
+
+10. Pregunta 10
+Si queremos en angular personalizar algún atributo sobre el elemento HTML de nuestro componente, ¿qué directiva debemos utilizar?
+
+@hostbinding
