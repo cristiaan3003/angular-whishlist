@@ -22,8 +22,19 @@
         *ngFor="let d of destinosApiClient.getAll(); let i=index"
         [destino]="d"
         [idx]="i"
-        (onClick)="elegido($event)"
+        (clicked)="elegido($event)"
         ></app-destino-viaje>
         <!--<app-destino-viaje> </app-destino-viaje>-->
     </div>
+
+    <hr class="mb-5">
+
+    <div class="row row-flex">
+        <h5>Actividad</h5>
+        <ul>
+            <li *ngFor="let d of updates;">Se eligió {{d.nombre}}!</li>
+        </ul>
+    </div>
+
+
 </div>
