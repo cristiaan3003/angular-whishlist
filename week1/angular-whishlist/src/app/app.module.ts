@@ -7,10 +7,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DestinoViajeComponent } from './destino-viaje/destino-viaje.component';
-import { ListaDestinosComponent } from './lista-destinos/lista-destinos.component';
-import { DestinoDetalleComponent } from './destino-detalle/destino-detalle.component';
-import { FormDestinoViajeComponent } from './form-destino-viaje/form-destino-viaje.component';
+import { DestinoViajeComponent } from './components/destino-viaje/destino-viaje.component';
+import { ListaDestinosComponent } from './components/lista-destinos/lista-destinos.component';
+import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
+import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
 import { DestinosApiClient } from './models/destinos-api-client.model';
 import { DestinosViajesState, reducerDestinosViajes,initializeDestinosViajesState, DestinosViajesEffects } from './models/destino-viajes-states.models';
 import { ActionReducerMap, StoreModule as NgrxStoreModule } from '@ngrx/store';
