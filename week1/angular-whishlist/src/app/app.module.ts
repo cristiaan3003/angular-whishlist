@@ -16,14 +16,43 @@ import { DestinosViajesState, reducerDestinosViajes,initializeDestinosViajesStat
 import { ActionReducerMap, StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { EffectsModule} from '@ngrx/effects';
 import { environment } from 'src/environments/environment';
+import { LoginComponent } from './components/login/login/login.component';
+import { ProtectedComponent } from './components/protected/protected/protected.component';
+import { AuthService } from './services/auth.service';
+import { UsuarioLogueadoGuard } from './guards/usuario-logueado/usuario-logueado.guard';
+import { VuelosComponent } from './components/vuelos/vuelos/vuelos.component';
+import { VuelosMainComponent } from './components/vuelos/vuelos-main/vuelos-main.component';
+import { VuelosMasInfoComponent } from './components/vuelos/vuelos-mas-info/vuelos-mas-info.component';
+import { VuelosDetalleComponent } from './components/vuelos/vuelos-detalle/vuelos-detalle.component';
+import { ReservasModule } from './reservas/reservas.module';
 
 
-
+// init routing
+export const childrenRoutesVuelos: Routes = [
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: 'main', component: VuelosMainComponent },
+  { path: 'mas-info', component: VuelosMasInfoComponent },
+  { path: ':id', component: VuelosDetalleComponent },
+];
 const routes: Routes =[
   {path: '',redirectTo: 'home',pathMatch: 'full'},
   {path: 'home',component: ListaDestinosComponent},
-  {path: 'destino',component: DestinoDetalleComponent}
+  {path: 'destino/:id',component: DestinoDetalleComponent},
+  {path: 'login', component: LoginComponent },
+  {
+    path: 'protected',
+    component: ProtectedComponent,
+    canActivate: [ UsuarioLogueadoGuard ]
+  },
+  {
+    path: 'vuelos',
+    component: VuelosComponent,
+    canActivate: [ UsuarioLogueadoGuard ],
+    children: childrenRoutesVuelos
+  }
 ];
+//end routing
+
 
 //redux init
 
@@ -51,7 +80,13 @@ let reducersInitialState = {
     DestinoViajeComponent,
     ListaDestinosComponent,
     DestinoDetalleComponent,
-    FormDestinoViajeComponent
+    FormDestinoViajeComponent,
+    LoginComponent,
+    ProtectedComponent,
+    VuelosComponent,
+    VuelosMainComponent,
+    VuelosMasInfoComponent,
+    VuelosDetalleComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +100,13 @@ let reducersInitialState = {
     StoreDevtoolsModule.instrument({
       //maxAge: 25, // ultimo XX cambios de estados 
       //logOnly: environment.production,
-    })
+    }),
+    ReservasModule
   ],
   providers: [
-    DestinosApiClient
+    DestinosApiClient,
+    UsuarioLogueadoGuard,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

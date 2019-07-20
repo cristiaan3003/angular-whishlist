@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DestinosApiClient {
+  
 	//destinos:DestinoViaje[];
 	//current: Subject<DestinoViaje> = new BehaviorSubject<DestinoViaje>(null);
 
@@ -32,5 +33,6 @@ export class DestinosApiClient {
 	}
     elegir(d:DestinoViaje){
 	    this.store.dispatch(new ElegidoFavoritoAction(d));
-    }
+	}
+
 }
