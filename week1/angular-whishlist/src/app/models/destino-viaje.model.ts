@@ -3,7 +3,7 @@ import {v4 as uuid} from 'uuid';
 export class DestinoViaje{
   private selected: boolean;
   public servicios: string[];
-  private id = uuid();
+  public id = uuid();
   public votes = 0;
   constructor(public nombre:string,public imagenUrl:string){ 
     this.servicios=['pileta','desayuno']

@@ -8,7 +8,8 @@ import { ElegidoFavoritoAction, NuevoDestinoAction } from '../../models/destino-
 @Component({
   selector: 'app-lista-destinos',
   templateUrl: './lista-destinos.component.html',
-  styleUrls: ['./lista-destinos.component.css']
+  styleUrls: ['./lista-destinos.component.css'],
+  providers: [DestinosApiClient] //inyectar dependencia en el component
 })
 export class ListaDestinosComponent implements OnInit {
 

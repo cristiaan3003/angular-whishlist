@@ -11,7 +11,7 @@ import { DestinoViajeComponent } from './components/destino-viaje/destino-viaje.
 import { ListaDestinosComponent } from './components/lista-destinos/lista-destinos.component';
 import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
 import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
-import { DestinosApiClient } from './models/destinos-api-client.model';
+
 import { DestinosViajesState, reducerDestinosViajes,initializeDestinosViajesState, DestinosViajesEffects } from './models/destino-viajes-states.models';
 import { ActionReducerMap, StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { EffectsModule} from '@ngrx/effects';
@@ -104,7 +104,6 @@ let reducersInitialState = {
     ReservasModule
   ],
   providers: [
-    DestinosApiClient,
     UsuarioLogueadoGuard,
     AuthService
   ],
