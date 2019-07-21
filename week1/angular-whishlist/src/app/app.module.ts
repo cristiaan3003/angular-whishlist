@@ -12,6 +12,8 @@ import { ListaDestinosComponent } from './components/lista-destinos/lista-destin
 import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
 import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
 import Dexie from 'dexie';
+import {TranslateService, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+
 
 import { DestinosViajesState, reducerDestinosViajes,initializeDestinosViajesState, DestinosViajesEffects, InitMyDataAction } from './models/destino-viajes-states.models';
 import { ActionReducerMap, StoreModule as NgrxStoreModule, Store } from '@ngrx/store';
@@ -28,6 +30,8 @@ import { VuelosDetalleComponent } from './components/vuelos/vuelos-detalle/vuelo
 import { ReservasModule } from './reservas/reservas.module';
 import { HttpClientModule, HttpHeaders, HttpRequest, HttpClient } from '@angular/common/http';
 import { DestinoViaje } from './models/destino-viaje.model';
+import { Observable, from } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 
 // app config -- inyecion de dependencias de variables de configuracion
@@ -111,21 +115,74 @@ let reducersInitialState = {
 
 
 // dexie db
+export class Translation {
+  constructor(public id: number, public lang: string, public key: string, public value: string) {}
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class MyDatabase extends Dexie {
   destinos: Dexie.Table<DestinoViaje, number>;
+  translations: Dexie.Table<Translation, number>;
   constructor () {
       super('MyDatabase');
       this.version(1).stores({
         destinos: '++id, nombre, imagenUrl',
       });
+      this.version(2).stores({
+        destinos: '++id, nombre, imagenUrl',
+        translations: '++id, lang, key, value'
+      });
+
   }
 }
 
 export const db = new MyDatabase(); //exportamos intancia de conexion a la base de datos
 // fin dexie db
+
+
+// i18n ini
+class TranslationLoader implements TranslateLoader {
+  constructor(private http: HttpClient) { }
+
+  getTranslation(lang: string): Observable<any> {
+    const promise = db.translations
+                      .where('lang')
+                      .equals(lang)
+                      .toArray()
+                      .then(results => {
+                                        if (results.length === 0) {
+                                          return this.http
+                                            .get<Translation[]>(APP_CONFIG_VALUE.apiEndpoint + '/api/translation?lang=' + lang)
+                                            .toPromise()
+                                            .then(apiResults => {
+                                              db.translations.bulkAdd(apiResults);
+                                              return apiResults;
+                                            });
+                                        }
+                                        return results;
+                                      }).then((traducciones) => {
+                                        console.log('traducciones cargadas:');
+                                        console.log(traducciones);
+                                        return traducciones;
+                                      }).then((traducciones) => {
+                                        return traducciones.map((t) => ({ [t.key]: t.value}));
+                                      });
+    /*
+    return from(promise).pipe(
+      map((traducciones) => traducciones.map((t) => { [t.key]: t.value}))
+    );
+    */
+   return from(promise).pipe(flatMap((elems) => from(elems)));
+  }
+}
+
+function HttpLoaderFactory(http: HttpClient) {
+  return new TranslationLoader(http);
+}
+// fin i18n
+
 
 
 @NgModule({
@@ -156,7 +213,14 @@ export const db = new MyDatabase(); //exportamos intancia de conexion a la base 
       //maxAge: 25, // ultimo XX cambios de estados 
       //logOnly: environment.production,
     }),
-    ReservasModule
+    ReservasModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (HttpLoaderFactory),
+          deps: [HttpClient]
+      }
+  })
   ],
   providers: [
     UsuarioLogueadoGuard,
