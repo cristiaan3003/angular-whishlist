@@ -11,6 +11,7 @@ import { DestinoViajeComponent } from './components/destino-viaje/destino-viaje.
 import { ListaDestinosComponent } from './components/lista-destinos/lista-destinos.component';
 import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
 import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
+import Dexie from 'dexie';
 
 import { DestinosViajesState, reducerDestinosViajes,initializeDestinosViajesState, DestinosViajesEffects, InitMyDataAction } from './models/destino-viajes-states.models';
 import { ActionReducerMap, StoreModule as NgrxStoreModule, Store } from '@ngrx/store';
@@ -26,6 +27,7 @@ import { VuelosMasInfoComponent } from './components/vuelos/vuelos-mas-info/vuel
 import { VuelosDetalleComponent } from './components/vuelos/vuelos-detalle/vuelos-detalle.component';
 import { ReservasModule } from './reservas/reservas.module';
 import { HttpClientModule, HttpHeaders, HttpRequest, HttpClient } from '@angular/common/http';
+import { DestinoViaje } from './models/destino-viaje.model';
 
 
 // app config -- inyecion de dependencias de variables de configuracion
@@ -107,6 +109,25 @@ let reducersInitialState = {
 
 //redux fin init
 
+
+// dexie db
+@Injectable({
+  providedIn: 'root'
+})
+export class MyDatabase extends Dexie {
+  destinos: Dexie.Table<DestinoViaje, number>;
+  constructor () {
+      super('MyDatabase');
+      this.version(1).stores({
+        destinos: '++id, nombre, imagenUrl',
+      });
+  }
+}
+
+export const db = new MyDatabase(); //exportamos intancia de conexion a la base de datos
+// fin dexie db
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -142,7 +163,8 @@ let reducersInitialState = {
     AuthService,
     { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE }, //inyecion de dependencias config app
     AppLoadService,       //inyecion de dependencias inicio app
-    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true } //inyecion de dependencias inicio app
+    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true }, //inyecion de dependencias inicio app
+    MyDatabase
   ],
   bootstrap: [AppComponent]
 })
