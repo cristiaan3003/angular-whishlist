@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input,Inject, forwardRef } from '@angular/core';
 import { DestinoViaje } from '../../models/destino-viaje.model';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { fromEvent, pipe } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map,filter,debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AppConfig, APP_CONFIG } from 'src/app/app.module';  // referencia circular (se importan em ambos archivos -> forwardRef salva este tipo de referencias cruzadas)
 
 @Component({
   selector: 'app-form-destino-viaje',
@@ -15,7 +16,7 @@ export class FormDestinoViajeComponent implements OnInit {
   fg: FormGroup;
   minLongitud = 3;
   searchResults: string[];
-  constructor(fb: FormBuilder) { 
+  constructor(fb: FormBuilder, @Inject(forwardRef(() => APP_CONFIG)) private config: AppConfig) { 
     this.onItemAdded = new EventEmitter();
     this.fg = fb.group({
       nombre: ['', Validators.compose([
@@ -25,7 +26,7 @@ export class FormDestinoViajeComponent implements OnInit {
       url: ['']
     });
     this.fg.valueChanges.subscribe((form: any)=>{
-      console.log('cambios en el formuladio', form);
+      console.log('cambios en el formulario', form);
     });
   }
 
@@ -37,13 +38,9 @@ export class FormDestinoViajeComponent implements OnInit {
       filter(text => text.length > 2), //largo minimo del texto
       debounceTime(200),// delay de tecleado
       distinctUntilChanged(),// si hubo cambios en lo que llega del teclado
-      switchMap(() => ajax('/assets/datos.json')) //este texto a buscar se lo pasamos a un API de busqueda
-
-    ).subscribe(AjaxResponse => {
-      console.log(AjaxResponse)
-      console.log(AjaxResponse.response)
-      this.searchResults = AjaxResponse.response;
-    })
+      //este texto a buscar se lo pasamos a un API de busqueda con ajax
+      switchMap((text: string) => ajax(this.config.apiEndpoint + '/ciudades?q=' + text))
+    ).subscribe(ajaxResponse => this.searchResults = ajaxResponse.response);
   }
   
   guardar(nombre: string, url: string):boolean{
