@@ -12,6 +12,7 @@ import { ListaDestinosComponent } from './components/lista-destinos/lista-destin
 import { DestinoDetalleComponent } from './components/destino-detalle/destino-detalle.component';
 import { FormDestinoViajeComponent } from './components/form-destino-viaje/form-destino-viaje.component';
 import Dexie from 'dexie';
+import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
 import {TranslateService, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 
@@ -220,7 +221,8 @@ function HttpLoaderFactory(http: HttpClient) {
           useFactory: (HttpLoaderFactory),
           deps: [HttpClient]
       }
-  })
+  }),
+  NgxMapboxGLModule
   ],
   providers: [
     UsuarioLogueadoGuard,
