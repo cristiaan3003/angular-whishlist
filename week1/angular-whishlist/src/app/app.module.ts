@@ -33,6 +33,7 @@ import { HttpClientModule, HttpHeaders, HttpRequest, HttpClient } from '@angular
 import { DestinoViaje } from './models/destino-viaje.model';
 import { Observable, from } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 // app config -- inyecion de dependencias de variables de configuracion
@@ -222,7 +223,8 @@ function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
   }),
-  NgxMapboxGLModule
+  NgxMapboxGLModule,
+  BrowserAnimationsModule
   ],
   providers: [
     UsuarioLogueadoGuard,

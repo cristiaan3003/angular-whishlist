@@ -3,12 +3,29 @@ import {DestinoViaje} from '../../models/destino-viaje.model'
 import { AppState } from '../../app.module';
 import { Store } from '@ngrx/store';
 import { VoteDownAction, VoteUpAction } from '../../models/destino-viajes-states.models';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-destino-viaje',
   templateUrl: './destino-viaje.component.html',
-  styleUrls: ['./destino-viaje.component.css']
-})
+  styleUrls: ['./destino-viaje.component.css'],
+  animations: [
+    trigger('esFavorito', [
+      state('estadoFavorito', style({
+        backgroundColor: 'PaleTurquoise'
+      })),
+      state('estadoNoFavorito', style({
+        backgroundColor: 'WhiteSmoke'
+      })),
+      transition('estadoNoFavorito => estadoFavorito', [
+        animate('3s')
+      ]),
+      transition('estadoFavorito => estadoNoFavorito', [
+        animate('1s')
+      ]),
+    ])
+  ]
+}) 
 export class DestinoViajeComponent implements OnInit {
   @Input() destino: DestinoViaje; //nombre puede ser pasado como parametro a las plantillas del componente
   @Input('idx') position: number; //renombro la variable a nivel "template"-> osea en el template se llamara 'idx'
