@@ -1,0 +1,21 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/myapp/angular-whishlist
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout:
+          path: ~/myapp
+      - restore_cache:
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - "node_modules"
+      - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
