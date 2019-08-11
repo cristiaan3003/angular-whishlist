@@ -28,7 +28,7 @@ module.exports = function (config) {
     browsers: ['Chrome', 'ChromeHeadless', 'ChromeHeadlessCI'],
     customLaunchers: {
       ChromeHeadlessCI: {
-        base: 'ChromeHeadless', //modo no interactivo, no requiere ventana grafica
+        base: 'ChromeHeadless', //modo no interactivo, no requiere ventana grafica    
         flags: ['--no-sandbox', '--disable-gpu', '--disable-translate', '--disable-extensions', '--remote-debugging-port=9223']
       }
     }
