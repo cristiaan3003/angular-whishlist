@@ -1,37 +1,37 @@
-#version: 2
-#jobs:
-#  build:
-#    working_directory: ~/myapp/angular-whishlist
-#    docker:
-#      - image: circleci/node:12-browsers
-#    steps:
-#      - checkout:
-#          path: ~/myapp
- #     - restore_cache:
- #         key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
- #     - run: npm install
- #     - save_cache:
-#          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
-#          paths:
-#            - "node_modules"
-#      - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
-
-
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
 version: 2
 jobs:
   build:
-    working_directory: ~/angular-whishlist
-    docker:
+  docker:
+      # specify the version you desire here
       - image: circleci/node:12-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo/angular-whishlist
+
     steps:
       - checkout
+
+      # Download and cache dependencies
       - restore_cache:
-          key: angular-whishlist-{{ .Branch }}-{{ checksum "package.json" }}
+          keys:
+            - angular-whishlist-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            #- v1-dependencies-
+
       - run: npm install
+
       - save_cache:
-          key: angular-whishlist-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-            - "node_modules"
-#      - run: xvfb-run -a npm run test -- --watch=false --no-progress --browser=ChromeNoSandbox
-#      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+            - node_modules
+          key: angular-whishlist-{{ checksum "package.json" }}
+
+      # run tests!
       - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
