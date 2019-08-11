@@ -44,6 +44,13 @@ https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/#2-ins
 
 - npm install popper.js --save
 
+Luego ir a "app/styles.css"  y colocar
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+
+
+
 
 3) para publicar la app-->
 
@@ -59,6 +66,146 @@ npm instala -g now
 NGRX DEVTOOL
 
 https://github.com/ngrx/store-devtools
+
+**********************************************************************
+**********************************************************************
+**********************************************************************
+
+
+
+MAPAS MAP BOX - Mapas en angular:
+
+npm install ngx-mapbox-gl mapbox-gl@0.49.0 --save
+
+npm install ngx-mapbox-gl mapbox-gl --save
+
+
+npm install @types/mapbox-gl@0.49.0 --save-dev
+
+y agregar en "src/styles.css"
+
+@import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
+
+en "app.module.ts" agregar
+
+import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
+
+imports: [...
+
+NgxMapboxGLModule
+
+...]
+
+Usarlo en el  "html componente" con:
+
+<mgl-map
+    [style]="style"
+    [zoom]="[2]"
+    style="height: 50vh; width: 100vw;"
+  >
+  <mgl-marker
+     [lngLat]="[-75.551012, 10.421185]"
+   >
+     <div
+       onclick="alert('Hola')"
+       class="marker"
+     >
+	   Hola mundo!
+     </div>
+   </mgl-marker>
+  </mgl-map>
+
+y en el Typescript del componente (con este metodo no es requerido el registro en MAPBOX - capa basica)  agregar este "style" en la 
+clase del componenete
+
+export class DestinoDetalleComponent implements OnInit {
+  ...
+
+  style = {
+    sources: {
+      world: {
+        type: 'geojson',
+        data: 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+      }
+    },
+    version: 8,
+    layers: [{
+      'id': 'countries',
+      'type': 'fill',
+      'source': 'world',
+      'layout': {},
+      'paint': {
+        'fill-color': '#6F788A'
+      }
+    }]
+  };
+
+ ...
+
+
+}
+
+
+
+**********************************************************************
+**********************************************************************
+**********************************************************************
+
+TESTs END-TO-END
+
+cypress
+
+npm install cypress --save-dev
+
+package.json:
+
+	"scripts":{
+		"e2e":"cypress open"
+	}
+
+cmd line:
+	ng serve
+	npm run e2e
+	
+
+
+**********************************************************************
+**********************************************************************
+**********************************************************************
+
+CONTINUOUS INTEGRATION  WITH "circle ci"
+
+- web:
+
+	registrarse en circleci y vincular el repositorio github, bitbucket, etc
+
+- en el root del proyecto, agregar ".circleci/config.yml" con el setup para nuestro proyecto, en ese caso:
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/myapp/angular-whishlist
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout:
+          path: ~/myapp
+      - restore_cache:
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - "node_modules"
+      - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
+
+
+
+
+
+
+
 
 **********************************************************************
 **********************************************************************
