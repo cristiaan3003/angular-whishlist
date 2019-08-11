@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - checkout:
-           ~/repo/
+      #     ~/repo/
 
       # Download and cache dependencies
       - restore_cache:
