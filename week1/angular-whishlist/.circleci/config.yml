@@ -34,4 +34,4 @@ jobs:
             - "node_modules"
 #      - run: xvfb-run -a npm run test -- --watch=false --no-progress --browser=ChromeNoSandbox
 #      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
-      - run: xvfb-run -a npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
+      - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
