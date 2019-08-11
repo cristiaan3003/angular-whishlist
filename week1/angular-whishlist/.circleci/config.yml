@@ -1,17 +1,17 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/my-project
+    working_directory: ~/myapp/angular-whishlist
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:12-browsers
     steps:
-      - checkout
+      - checkout:
+          path: ~/myapp
       - restore_cache:
-          key: angular-whishlist-{{ .Branch }}-{{ checksum "package.json" }}
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
-          key: angular-whishlist-{{ .Branch }}-{{ checksum "package.json" }}
+          key: angular-whishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
-      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+      - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI --source-map=false
