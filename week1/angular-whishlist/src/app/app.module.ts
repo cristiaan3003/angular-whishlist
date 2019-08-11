@@ -34,6 +34,8 @@ import { DestinoViaje } from './models/destino-viaje.model';
 import { Observable, from } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EspiameDirective } from './espiame.directive';
+import { TrackearClickDirective } from './trackear-click.directive';
 
 
 // app config -- inyecion de dependencias de variables de configuracion
@@ -199,7 +201,9 @@ function HttpLoaderFactory(http: HttpClient) {
     VuelosComponent,
     VuelosMainComponent,
     VuelosMasInfoComponent,
-    VuelosDetalleComponent
+    VuelosDetalleComponent,
+    EspiameDirective,
+    TrackearClickDirective
   ],
   imports: [
     BrowserModule,
@@ -224,7 +228,7 @@ function HttpLoaderFactory(http: HttpClient) {
       }
   }),
   NgxMapboxGLModule,
-  BrowserAnimationsModule
+  BrowserAnimationsModule 
   ],
   providers: [
     UsuarioLogueadoGuard,
